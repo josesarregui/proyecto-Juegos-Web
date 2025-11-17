@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impostor</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Juegos de Fiesta</title> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -12,106 +11,46 @@
 </head>
 <body>
 
-    <div class="container" id="pantallaMenu">
-
-        <div class="logo">🕵️‍♂️</div>
-        <h1>¡Bienvenido!</h1>
+    <div class="container" id="pantallaSelectorJuegos">
+        <div class="logo">🎉</div>
+        <h1>Selecciona un Juego</h1>
         <p class="instruccion-pantalla">Elige un modo de juego para comenzar.</p>
         <div class="menu-opciones">
+            <button id="botonJugarImpostor">Impostor 🕵️‍♂️</button>
+            <button id="botonJugarEspia" class="boton-secundario" disabled>El Espía (Próximamente)</button>
+            <button id="botonJugarAdivina" class="boton-secundario" disabled>Adivina la Palabra (Próximamente)</button>
+        </div>
+    </div>
+
+    <div class="container oculto" id="pantallaMenuImpostor"> 
+        <div class="logo">🕵️‍♂️</div> 
+        <h1>¡Bienvenido!</h1>
+        <p class="instruccion-pantalla">Configura tu partida de Impostor.</p>
+        <div class="menu-opciones">
             <button id="botonJugarLocal">Jugar Local</button>
-            <button id="botonGestionarCategorias" class="boton-secundario">Mis Categorías</button>
-            <button id="botonJugarOnline" disabled>Jugar Online (Próximamente)</button>
+            <button id="botonGestionarCategorias" class="boton-secundario">Crear / Editar Categorías</button>
+            <button id="botonVolverSelector" class="boton-secundario" style="margin-top: 20px;">Volver al Selector de Juegos</button>
         </div>
     </div>
 
     <div class="container oculto" id="pantallaConfig">
-        <h1>Configurar Partida</h1>
-        <div class="configuracion">
-            <label for="totalJugadores">Total de Jugadores:</label>
-            <input type="number" id="totalJugadores" value="5" min="3">
-            <label for="numImpostores">Número de Impostores:</label>
-            <input type="number" id="numImpostores" value="1" min="1">
         </div>
-        <div class="tematicas">
-            <label for="selectTematica">Elige una temática:</label>
-            <select id="selectTematica">
-                </select>
-        </div>
-        <div class="tematicas oculto" id="divSubTematica">
-            <label for="selectSubTematica">Elige una subcategoría:</label>
-            <select id="selectSubTematica">
-                </select>
-        </div>
-        <button id="botonComenzar">COMENZAR</button>
-        <button id="botonVolverMenu" class="boton-secundario">Volver al Menú</button>
-        <div id="mensajeError" class="error"></div>
-    </div>
-
+    
     <div class="container oculto" id="pantallaGestionar">
-        <h2>Gestionar Categorías</h2>
-        <p class="instruccion-pantalla">Puedes crear, editar o eliminar tus categorías.</p>
-
-        <button id="botonIrACrear" class="boton-crear">Crear Nueva Categoría</button>
-
-        <hr class="divisor">
-
-        <div id="listaCategoriasPropias">
-            </div>
-
-        <button id="botonVolverMenuGestionar" class="boton-secundario">Volver al Menú</button>
-    </div>
+        </div>
 
     <div class="container oculto" id="pantallaCrearCategoria">
-        <h2 id="tituloCrearEditar">Crear Categoría</h2>
-
-        <div id="mensajeCategoria" class="info" style="display: none;"></div>
-        <div class="configuracion">
-            <label for="inputNombreCategoria">Nombre de la Categoría:</label>
-            <input type="text" id="inputNombreCategoria" placeholder="Ej: Películas de Marvel">
-
-            <label for="textareaPalabras">Palabras / Frases (Una por renglón):</label>
-            <textarea id="textareaPalabras" rows="10" placeholder="Iron Man&#10;Capitán América&#10;Thor&#10;..."></textarea>
-            <p id="conteoPalabras">0 / 50 palabras</p>
         </div>
-        <button id="botonGuardarCategoria">Guardar Categoría</button>
-        <button id="botonVolverGestionar" class="boton-secundario">Cancelar</button>
-    </div>
 
     <div class="container oculto" id="pantallaJuego">
-        <p class="instruccion-pantalla">Pasa el dispositivo al jugador correspondiente.</p>
-        <div id="carta">
-            <div id="cartaTapada">
-                <h2 id="tituloCartaTapada" class="titulo-carta">JUGADOR 1</h2>
-                <p class="instruccion-tapada">No digas la palabra a los demás jugadores.</p>
-                <span class="icono-tap">👇</span>
-                <p class="instruccion-revelar">TOCA PARA REVELAR</p>
-            </div>
-            <div id="cartaRevelada" class="oculto">
-                <h2 id="tituloCartaRevelada" class="titulo-carta">JUGADOR 1</h2>
-                <div class="bloque-palabra">
-                    <h3 id="textoRol">LA PALABRA ES:</h3>
-                    <p id="textoPalabra">PALABRA SECRETA</p>
-                </div>
-            </div>
         </div>
-        <button id="botonSiguiente" class="oculto">SIGUIENTE JUGADOR</button>
-    </div>
 
     <div class="container oculto" id="pantallaInicioRonda">
-        <h2>¡Listos para Jugar!</h2>
-        <p id="textoJugadorInicial">¡Comienza el Jugador 4!</p>
-        <button id="botonFinalizar">FINALIZAR JUEGO</button>
-    </div>
+        </div>
 
     <div class="container oculto" id="pantallaFinal">
-        <h2>¡Juego Terminado!</h2>
-        <div class="resultado-final">
-            <p id="palabraFinal">La palabra era: Argentina</p>
-            <p id="impostoresFinal">El/Los impostor(es) era(n): Jugador 2</p>
         </div>
-        <button id="botonJugarNuevo">Jugar de Nuevo</button>
-    </div>
-
+    
     <script src="app.js"></script>
 </body>
 </html>
