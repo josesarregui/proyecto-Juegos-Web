@@ -46,10 +46,16 @@ let totalJugadores = 0, impostores = [], tripulantes = [], palabraSecreta = "", 
 let modoEdicion = null; // Guarda el nombre de la categoría que se está editando
 
 // --- 4. Obtener Elementos del HTML ---
-// Pantalla de Menú
-const pantallaMenu = document.getElementById('pantallaMenu');
+
+// Pantalla Selector de Juegos
+const pantallaSelectorJuegos = document.getElementById('pantallaSelectorJuegos');
+const botonJugarImpostor = document.getElementById('botonJugarImpostor');
+
+// Pantalla de Menú Impostor
+const pantallaMenuImpostor = document.getElementById('pantallaMenuImpostor'); 
 const botonJugarLocal = document.getElementById('botonJugarLocal');
 const botonGestionarCategorias = document.getElementById('botonGestionarCategorias');
+const botonVolverSelector = document.getElementById('botonVolverSelector');
 
 // Pantalla de Configuración
 const pantallaConfig = document.getElementById('pantallaConfig');
@@ -102,18 +108,23 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarCategoriasPropias();
 });
 
-// Listeners del Menú Principal
+// (NUEVO) Listeners del Selector de Juegos
+botonJugarImpostor.addEventListener('click', () => cambiarPantalla(pantallaMenuImpostor, pantallaSelectorJuegos));
+// (Aquí irían los listeners para botonJugarEspia, etc. en el futuro)
+
+// Listeners del Menú Impostor
 botonJugarLocal.addEventListener('click', () => cambiarPantalla(pantallaConfig, pantallaMenu));
 botonGestionarCategorias.addEventListener('click', mostrarPantallaGestionar);
+botonVolverSelector.addEventListener('click', () => cambiarPantalla(pantallaSelectorJuegos, pantallaMenuImpostor));
 
 // Listeners de Configuración
 selectTematica.addEventListener('change', actualizarSubcategorias);
 botonComenzar.addEventListener('click', iniciarJuego);
-botonVolverMenu.addEventListener('click', () => cambiarPantalla(pantallaMenu, pantallaConfig));
+botonVolverMenu.addEventListener('click', () => cambiarPantalla(pantallaMenuImpostor, pantallaConfig));
 
 // Listeners de Pantalla Gestionar
 botonIrACrear.addEventListener('click', irAPantallaCrear);
-botonVolverMenuGestionar.addEventListener('click', () => cambiarPantalla(pantallaMenu, pantallaGestionar));
+botonVolverMenuGestionar.addEventListener('click', () => cambiarPantalla(pantallaMenuImpostor, pantallaGestionar));
 
 // Listeners de Crear Categoría
 botonGuardarCategoria.addEventListener('click', guardarCategoria);
@@ -225,7 +236,7 @@ function mostrarPantallaGestionar() {
         botonIrACrear.disabled = false;
         botonIrACrear.textContent = "Crear Nueva Categoría";
     }
-    cambiarPantalla(pantallaGestionar, pantallaMenu);
+    cambiarPantalla(pantallaGestionar, pantallaMenuImpostor);
 }
 
 /**
@@ -559,7 +570,7 @@ function mostrarPantallaFinal() {
 }
 
 function reiniciarJuego() {
-    cambiarPantalla(pantallaMenu, pantallaFinal);
+    cambiarPantalla(pantallaMenuImpostor, pantallaFinal);
 
     totalJugadores = 0;
     impostores = [];
