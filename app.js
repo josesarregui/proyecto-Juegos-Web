@@ -1,5 +1,4 @@
-// --- 1. Base de datos de palabras (NUEVA ESTRUCTURA) ---
-// --- 1. Base de datos de palabras (ACTUALIZADA) ---
+
 // --- 1. Base de datos de palabras (ACTUALIZADA) ---
 const TEMAS = {
     objetos: {
@@ -10,7 +9,13 @@ const TEMAS = {
             "Dulce de leche", "Fernet", "Colectivo", "Tarjeta SUBE", "DNI", 
             "Birome", "Cuaderno", "Mochila", "Celular", "Cargador", 
             "Zapatilla (Enchufe)", "Alpargata", "Boleadora", "Facón", "Poncho", 
-            "Escarapela", "Obelisco", "Billete de mil", "Cacerola", "Repasador"
+            "Escarapela", "Obelisco", "Billete de mil", "Cacerola", "Repasador",
+            "Milanesa", "Sanguche de miga", "Medialuna", "Locro", "Fainá",
+            "Polenta", "Pastelitos", "Mandarina", "Soda", "Vino en caja",
+            "Subte", "Remís", "Kiosco", "Góndola", "Changuito",
+            "Pelopincho", "Reposera", "Sombrilla", "Espiral (Mosquitos)", "Ventilador",
+            "Secador de piso", "Trapo de piso", "Balde", "Broche de ropa", "Tender",
+            "Guardapolvo", "Cartuchera", "Figuritas", "Camiseta de fútbol", "Pelota de trapo"
         ]
     },
     futbol: {
