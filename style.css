@@ -23,9 +23,11 @@ body {
 optgroup {
     font-weight: 700;
     font-style: italic;
+    text-align: center;
 }
 
 .container {
+    position: relative;
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
@@ -50,10 +52,12 @@ h1, h2 {
     flex-direction: column;
     gap: 15px;
 }
+
 label {
     font-weight: 600;
     color: #555;
 }
+
 input[type="number"], input[type="text"], select, textarea {
     padding: 10px;
     border: 1px solid #ddd;
@@ -64,6 +68,7 @@ input[type="number"], input[type="text"], select, textarea {
     resize: vertical;
     min-height: 40px;
 }
+
 select {
     text-align-last: center;
     -moz-text-align-last: center;
@@ -88,13 +93,12 @@ button {
 button:hover {
     background-color: #333;
 }
-#botonComenzar, #botonJugarLocal, #botonGuardarCategoria {
+#botonJugarLocal, #botonGuardarCategoria {
     background-color: #007bff;
 }
-#botonComenzar:hover, #botonJugarLocal:hover, #botonGuardarCategoria:hover {
+#botonJugarLocal:hover, #botonGuardarCategoria:hover {
     background-color: #0056b3;
 }
-
 .boton-secundario {
     background-color: #f0f0f0;
     color: #333;
@@ -172,12 +176,14 @@ button:disabled {
 #carta.revelada {
     background-color: var(--color-palido, #FFFBEB);
 }
+
 .titulo-carta {
     font-size: 32px;
     font-weight: 800;
     color: #1F1F1F;
     margin-bottom: 20px;
 }
+
 #cartaTapada {
     text-align: center;
 }
@@ -187,21 +193,25 @@ button:disabled {
     margin-bottom: 30px;
     font-weight: 600;
 }
+
 .icono-tap {
     font-size: 40px;
     display: block;
     margin-bottom: 20px;
     animation: pulso 1.5s infinite ease-in-out;
 }
+
 .instruccion-revelar {
     font-size: 18px;
     font-weight: 700;
     color: #1F1F1F;
 }
+
 #cartaRevelada {
     text-align: center;
     width: 100%;
 }
+
 .bloque-palabra {
     background-color: #FFFFFF;
     border: 2px solid #000000;
@@ -209,6 +219,7 @@ button:disabled {
     padding: 25px;
     margin-top: 20px;
 }
+
 #cartaRevelada #textoRol {
     font-size: 16px;
     font-weight: 700;
@@ -259,10 +270,12 @@ button:disabled {
     font-size: 18px;
     margin: 10px 0;
 }
+
 #palabraFinal {
     font-weight: 600;
     color: #0056b3;
 }
+
 #impostoresFinal {
     font-weight: 600;
     color: #d9534f;
@@ -299,6 +312,7 @@ button:disabled {
 }
 
 /* Botones pequeños de icono */
+
 .boton-icono {
     /* (NUEVO) Centramos el emoji perfectamente con Flexbox */
     display: flex;
@@ -311,17 +325,15 @@ button:disabled {
     height: 44px; /* Alto fijo */
     margin-top: 0; /* Sobrescribe el margen de botones */
 
-    /* (ELIMINADO) Quitamos el padding, flexbox lo maneja mejor */
-    /* padding: 8px 12px; */
-
-    /* (NUEVO) Nos aseguramos que el borde cuente dentro de los 44px */
     box-sizing: border-box;
 }
+
 .boton-editar {
     background-color: #f0f0f0;
     color: #333;
     border: 1px solid transparent;
 }
+
 .boton-editar:hover {
     background-color: #e0e0e0;
 }
@@ -331,6 +343,7 @@ button:disabled {
     color: #d9534f;
     border: 1px solid #d9534f;
 }
+
 .boton-eliminar:hover {
     background-color: #fbeaea;
 }
@@ -366,4 +379,135 @@ button:disabled {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
+}
+
+/* --- (NUEVO) Estilo para el botón de Ayuda (?) --- */
+.boton-ayuda {
+    position: absolute; /* Flota sobre el contenedor */
+    top: 15px;
+    right: 15px;
+
+    background-color: #dc3545; /* Fondo rojo */
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    cursor: pointer;
+    margin-top: 0;
+    transition: background-color 0.3s ease;
+
+    /* --- (AQUÍ ESTÁ LA MAGIA) --- */
+
+    /* 1. Anulamos el padding por defecto */
+    padding: 0;
+
+    /* 2. Empujamos el '?' 2px a la derecha para centrarlo visualmente */
+    padding-left: 2px;
+
+    /* 3. Nos aseguramos que el padding no cambie el tamaño de 35px */
+    box-sizing: border-box;
+}
+
+.boton-ayuda:hover {
+    background-color: #c82333; /* Rojo más oscuro */
+}
+
+/* --- (NUEVO) Estilos para la Ventana Modal --- */
+
+.overlay-modal {
+    position: fixed; /* Flota por encima de todo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente */
+
+    /* Centra el contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000; /* Se asegura de estar al frente */
+}
+
+.modal {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Ocupa el 90% del ancho del celular */
+    max-width: 450px; /* Pero no más de 450px en escritorio */
+    text-align: left; /* Alinea el texto a la izquierda para leerlo */
+    z-index: 1001;
+}
+
+.modal h2 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.lista-reglas {
+    padding-left: 25px; /* Espacio para los números */
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.lista-reglas li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* El botón "Entendido" usa el estilo de botón principal */
+#botonCerrarModal {
+    background-color: #007bff;
+}
+#botonCerrarModal:hover {
+    background-color: #0056b3;
+}
+
+/* --- (NUEVO) Estilos para Menú Espía y Modal --- */
+
+/* El botón de ayuda del Espía usa la misma clase que el del Impostor */
+#pantallaMenuEspia .boton-ayuda {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0;
+    padding: 0;
+    padding-left: 2px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+#pantallaMenuEspia .boton-ayuda:hover {
+    background-color: #c82333;
+}
+
+/* El botón "Jugar Local" del Espía usa el estilo principal */
+#botonJugarLocalEspia {
+    background-color: #007bff;
+}
+#botonJugarLocalEspia:hover {
+    background-color: #0056b3;
 }
