@@ -32,33 +32,74 @@ const TEMAS = {
     }
 };
 
+const UBICACIONES = {
+    clasicas: {
+        nombre: "Clásicas",
+        palabras: [
+            "Playa", "Avión", "Banco", "Circo", "Hospital", "Cine", "Restaurante",
+            "Supermercado", "Teatro", "Escuela", "Fiesta", "Gimnasio", "Biblioteca",
+            "Hotel", "Museo", "Estación de Tren", "Estación de Policía", "Parque",
+            "Zoológico", "Spa", "Estadio", "Casino", "Boliche", "Centro Comercial",
+            "Universidad", "Iglesia", "Oficina", "Granja", "Crucero", "Peluquería",
+            "Taller Mecánico", "Cementerio", "Embajada", "Concierto", "Bodega", "Comisaría",
+            "Estación de Bomberos", "Desierto", "Montaña", "Bar", "Fábrica", "Camping", "Tribunal", "Prisión"
+        ]
+    },
+    fantasia: {
+        nombre: "Fantasía y Ficción",
+        palabras: [
+            "Estación Espacial", "Hogwarts", "Submarino", "Base Secreta",
+            "Castillo Medieval", "Narnia", "Nave Espacial", "Laboratorio Secreto",
+            "Casa Embrujada", "Bosque Encantado", "Barco Pirata", "Isla Desierta",
+            "Atlantis", "Guarida del Dragón", "Mundo Post-Apocalíptico",
+            "Fondo del Mar", "La Matrix", "País de las Maravillas"
+        ]
+    }
+};
+
+
 // Listas de colores
 const COLORES_CARTA_FUERTE = ['#FFD60A', '#00A6FB', '#FF595E', '#e83e8c', '#8338EC', '#00C49A'];
 const COLORES_CARTA_PALIDO = ['#FFFBEB', '#E6F6FF', '#FFF0F1', '#FDECF4', '#F3EBFF', '#E6FAF5'];
 
 // --- 2. Constantes de Límites ---
-const MAX_CATEGORIAS = 2;
+const MAX_CATEGORIAS = 5;
 const MAX_PALABRAS = 50;
 const MAX_CHAR_PALABRA = 30;
+const MAX_JUGADORES = 20;
 
 // --- 3. Variables de Estado del Juego ---
 let totalJugadores = 0, impostores = [], tripulantes = [], palabraSecreta = "", jugadorActual = 1;
-let modoEdicion = null; // Guarda el nombre de la categoría que se está editando
+let modoEdicion = null; 
+let juegoActual = null;
 
 // --- 4. Obtener Elementos del HTML ---
-
 // Pantalla Selector de Juegos
 const pantallaSelectorJuegos = document.getElementById('pantallaSelectorJuegos');
 const botonJugarImpostor = document.getElementById('botonJugarImpostor');
+const botonJugarEspia = document.getElementById('botonJugarEspia');
 
-// Pantalla de Menú Impostor
-const pantallaMenuImpostor = document.getElementById('pantallaMenuImpostor'); 
-const botonJugarLocal = document.getElementById('botonJugarLocal');
+// Pantalla de Menú IMPOSTOR
+const pantallaMenuImpostor = document.getElementById('pantallaMenuImpostor');
+// (CORREGIDO) La variable ahora coincide con el ID del HTML
+const botonJugarLocalImpostor = document.getElementById('botonJugarLocalImpostor'); 
 const botonGestionarCategorias = document.getElementById('botonGestionarCategorias');
 const botonVolverSelector = document.getElementById('botonVolverSelector');
+const botonComoJugarImpostor = document.getElementById('botonComoJugarImpostor');
+
+// Pantalla de Menú ESPIA
+const pantallaMenuEspia = document.getElementById('pantallaMenuEspia');
+const botonJugarLocalEspia = document.getElementById('botonJugarLocalEspia');
+const botonComoJugarEspia = document.getElementById('botonComoJugarEspia');
+const botonVolverSelectorEspia = document.getElementById('botonVolverSelectorEspia');
 
 // Pantalla de Configuración
 const pantallaConfig = document.getElementById('pantallaConfig');
+const tituloConfig = document.getElementById('tituloConfig');
+const labelImpostores = document.getElementById('labelImpostores');
+const labelTematica = document.getElementById('labelTematica');
+// (CORREGIDO) Eliminamos la variable del botón borrado
+// const botonGestionarDesdeConfig = document.getElementById('botonGestionarDesdeConfig');
 const inputTotalJugadores = document.getElementById('totalJugadores');
 const inputNumImpostores = document.getElementById('numImpostores');
 const selectTematica = document.getElementById('selectTematica');
@@ -100,27 +141,52 @@ const palabraFinal = document.getElementById('palabraFinal');
 const impostoresFinal = document.getElementById('impostoresFinal');
 const botonJugarNuevo = document.getElementById('botonJugarNuevo');
 
+// Elementos del Modal
+const overlayModalImpostor = document.getElementById('overlayModalImpostor');
+const overlayModalEspia = document.getElementById('overlayModalEspia');
+const botonesCerrarModal = document.querySelectorAll('.botonCerrarModal');
+
 // --- 5. Event Listeners ---
 
 // Listener de Carga
 document.addEventListener('DOMContentLoaded', () => {
-    popularTemasPrincipales();
-    cargarCategoriasPropias();
+    // No hacemos nada al cargar
 });
 
-// (NUEVO) Listeners del Selector de Juegos
-botonJugarImpostor.addEventListener('click', () => cambiarPantalla(pantallaMenuImpostor, pantallaSelectorJuegos));
-// (Aquí irían los listeners para botonJugarEspia, etc. en el futuro)
+// Listeners del Selector de Juegos
+botonJugarImpostor.addEventListener('click', () => {
+    juegoActual = "impostor"; 
+    cambiarPantalla(pantallaMenuImpostor, pantallaSelectorJuegos);
+});
+botonJugarEspia.addEventListener('click', () => {
+    juegoActual = "espia"; 
+    cambiarPantalla(pantallaMenuEspia, pantallaSelectorJuegos);
+});
 
 // Listeners del Menú Impostor
-botonJugarLocal.addEventListener('click', () => cambiarPantalla(pantallaConfig, pantallaMenu));
+// (CORREGIDO) El listener ahora usa la variable correcta
+botonJugarLocalImpostor.addEventListener('click', () => prepararPantallaConfig("impostor"));
 botonGestionarCategorias.addEventListener('click', mostrarPantallaGestionar);
 botonVolverSelector.addEventListener('click', () => cambiarPantalla(pantallaSelectorJuegos, pantallaMenuImpostor));
+botonComoJugarImpostor.addEventListener('click', () => overlayModalImpostor.classList.remove('oculto'));
+
+// Listeners del Menú Espía
+botonJugarLocalEspia.addEventListener('click', () => prepararPantallaConfig("espia"));
+botonComoJugarEspia.addEventListener('click', () => overlayModalEspia.classList.remove('oculto'));
+botonVolverSelectorEspia.addEventListener('click', () => cambiarPantalla(pantallaSelectorJuegos, pantallaMenuEspia));
 
 // Listeners de Configuración
 selectTematica.addEventListener('change', actualizarSubcategorias);
 botonComenzar.addEventListener('click', iniciarJuego);
-botonVolverMenu.addEventListener('click', () => cambiarPantalla(pantallaMenuImpostor, pantallaConfig));
+botonVolverMenu.addEventListener('click', () => {
+    if (juegoActual === "impostor") {
+        cambiarPantalla(pantallaMenuImpostor, pantallaConfig);
+    } else {
+        cambiarPantalla(pantallaMenuEspia, pantallaConfig);
+    }
+});
+// (CORREGIDO) Eliminamos el listener del botón borrado
+// botonGestionarDesdeConfig.addEventListener('click', ...);
 
 // Listeners de Pantalla Gestionar
 botonIrACrear.addEventListener('click', irAPantallaCrear);
@@ -137,6 +203,20 @@ botonSiguiente.addEventListener('click', siguienteTurno);
 botonFinalizar.addEventListener('click', mostrarPantallaFinal);
 botonJugarNuevo.addEventListener('click', reiniciarJuego);
 
+// Listeners del Modal (para AMBOS modales)
+botonesCerrarModal.forEach(boton => {
+    boton.addEventListener('click', () => {
+        overlayModalImpostor.classList.add('oculto');
+        overlayModalEspia.classList.add('oculto');
+    });
+});
+overlayModalImpostor.addEventListener('click', (e) => {
+    if (e.target === overlayModalImpostor) overlayModalImpostor.classList.add('oculto');
+});
+overlayModalEspia.addEventListener('click', (e) => {
+    if (e.target === overlayModalEspia) overlayModalEspia.classList.add('oculto');
+});
+
 // --- 6. Funciones de Navegación y Categorías ---
 
 function cambiarPantalla(pantallaMostrar, pantallaOcultar) {
@@ -144,24 +224,60 @@ function cambiarPantalla(pantallaMostrar, pantallaOcultar) {
     pantallaOcultar.classList.add('oculto');
 }
 
-/**
- * Llena el primer <select> con las categorías base
- */
-function popularTemasPrincipales() {
-    selectTematica.innerHTML = ''; // Limpiamos
+function prepararPantallaConfig(juego) {
+    juegoActual = juego; 
 
-    for (const key in TEMAS) {
+    if (juego === "impostor") {
+        tituloConfig.textContent = "Configurar Impostor";
+        labelImpostores.textContent = "Número de Impostores:";
+        labelTematica.textContent = "Elige una temática:";
+
+        popularTemasPrincipales(TEMAS); 
+        cargarCategoriasPropias(); 
+        
+        // (CORREGIDO) No mostramos el div, 'cargarCategoriasPropias' lo hará
+        
+        // (CORREGIDO) Ocultamos el botón (ya no existe, pero por si acaso)
+        // botonGestionarDesdeConfig.classList.remove('oculto'); 
+
+        inputNumImpostores.max = parseInt(inputTotalJugadores.value) - 1 || 1;
+
+        cambiarPantalla(pantallaConfig, pantallaMenuImpostor);
+
+    } else if (juego === "espia") {
+        tituloConfig.textContent = "Configurar El Espía";
+        labelImpostores.textContent = "Número de Espías:";
+        labelTematica.textContent = "Elige paquete de ubicaciones:";
+
+        popularTemasPrincipales(UBICACIONES); 
+        
+        divSubTematica.classList.add('oculto'); 
+        // (CORREGIDO) Ocultamos el botón (ya no existe, pero por si acaso)
+        // botonGestionarDesdeConfig.classList.add('oculto'); 
+
+        inputNumImpostores.max = parseInt(inputTotalJugadores.value) - 1 || 1;
+
+        cambiarPantalla(pantallaConfig, pantallaMenuEspia);
+    }
+}
+
+function popularTemasPrincipales(database) {
+    selectTematica.innerHTML = '';
+
+    for (const key in database) {
         const option = document.createElement('option');
         option.value = key;
-        option.textContent = TEMAS[key].nombre;
+        option.textContent = database[key].nombre;
         selectTematica.appendChild(option);
     }
 }
 
-/**
- * Muestra y llena el segundo <select> si es necesario
- */
 function actualizarSubcategorias() {
+    if (juegoActual !== "impostor") {
+        divSubTematica.classList.add('oculto');
+        return;
+    }
+
     const temaKey = selectTematica.value;
     selectSubTematica.innerHTML = '';
 
@@ -191,10 +307,10 @@ function actualizarSubcategorias() {
     }
 }
 
-/**
- * Carga las categorías de localStorage
- */
 function cargarCategoriasPropias() {
+
+    if (juegoActual !== "impostor") return;
+
     document.querySelectorAll('#selectTematica option[data-propia="true"]').forEach(opt => opt.remove());
 
     const grupoPropiasExistente = document.getElementById('grupoPropias');
@@ -222,9 +338,7 @@ function cargarCategoriasPropias() {
     actualizarSubcategorias();
 }
 
-/**
- * Muestra la pantalla de gestión y llena la lista
- */
+
 function mostrarPantallaGestionar() {
     popularListaGestionar();
     const categoriasGuardadas = JSON.parse(localStorage.getItem('categoriasPropias')) || [];
@@ -239,9 +353,6 @@ function mostrarPantallaGestionar() {
     cambiarPantalla(pantallaGestionar, pantallaMenuImpostor);
 }
 
-/**
- * Llena la lista en la pantalla de "Gestionar Categorías"
- */
 function popularListaGestionar() {
     listaCategoriasPropias.innerHTML = '';
     const categoriasGuardadas = JSON.parse(localStorage.getItem('categoriasPropias')) || [];
@@ -279,9 +390,6 @@ function popularListaGestionar() {
     });
 }
 
-/**
- * Prepara la pantalla de "Crear" para modo Edición
- */
 function cargarCategoriaParaEditar(nombreCategoria) {
     const categoriasGuardadas = JSON.parse(localStorage.getItem('categoriasPropias')) || [];
     const categoria = categoriasGuardadas.find(cat => cat.nombre === nombreCategoria);
@@ -298,9 +406,6 @@ function cargarCategoriaParaEditar(nombreCategoria) {
     cambiarPantalla(pantallaCrearCategoria, pantallaGestionar);
 }
 
-/**
- * Prepara la pantalla de "Crear" para modo Creación
- */
 function irAPantallaCrear() {
     modoEdicion = null;
     tituloCrearEditar.textContent = "Crear Categoría";
@@ -313,9 +418,6 @@ function irAPantallaCrear() {
     cambiarPantalla(pantallaCrearCategoria, pantallaGestionar);
 }
 
-/**
- * Elimina una categoría del localStorage
- */
 function eliminarCategoria(nombreCategoria) {
     if (!confirm(`¿Estás seguro de que quieres eliminar la categoría "${nombreCategoria}"?`)) {
         return;
@@ -344,9 +446,6 @@ function actualizarConteoPalabras() {
     }
 }
 
-/**
- * Guarda una categoría (Nueva o Editada)
- */
 function guardarCategoria() {
     const nombreNuevo = inputNombreCategoria.value.trim();
     const palabras = textareaPalabras.value.split('\n').filter(p => p.trim() !== "");
@@ -420,59 +519,71 @@ function iniciarJuego() {
 
     totalJugadores = parseInt(inputTotalJugadores.value);
     const numImpostores = parseInt(inputNumImpostores.value);
-
     const temaKey = selectTematica.value;
     const subTemaKey = selectSubTematica.value;
 
-    if (!seleccionarPalabra(temaKey, subTemaKey)) {
+    // Validaciones de Jugadores (comunes a ambos juegos)
+    if (numImpostores >= totalJugadores) {
+        mostrarMensaje(mensajeError, 'Error: No puede haber más impostores/espías que jugadores.', 'error');
+        return;
+    }
+    if (totalJugadores < 3 || numImpostores < 1) {
+        mostrarMensaje(mensajeError, 'Error: Mínimo 3 jugadores y 1 impostor/espía.', 'error');
+        return;
+    }
+    if (totalJugadores > MAX_JUGADORES) {
+        mostrarMensaje(mensajeError, `Error: El máximo es de ${MAX_JUGADORES} jugadores.`, 'error');
         return;
     }
 
-    if (numImpostores >= totalJugadores) {
-        mostrarMensaje(mensajeError, 'Error: No puede haber más impostores que jugadores.', 'error');
-        return;
-    }
-     if (totalJugadores < 3 || numImpostores < 1) {
-        mostrarMensaje(mensajeError, 'Error: Mínimo 3 jugadores y 1 impostor.', 'error');
-        return;
+    // Lógica de selección de palabra (depende del juego)
+    if (!seleccionarPalabra(temaKey, subTemaKey)) {
+        return; // Hubo un error
     }
 
     jugadorActual = 1;
-    seleccionarImpostores(totalJugadores, numImpostores);
+    seleccionarImpostores(totalJugadores, numImpostores); // Esta función es la misma
     cambiarPantalla(pantallaJuego, pantallaConfig);
-    prepararTurno();
+    prepararTurno(); // Esta función ahora depende de 'juegoActual'
 }
 
 function seleccionarPalabra(temaKey, subTemaKey) {
     let listaPalabras = [];
 
-    if (temaKey.startsWith('custom_')) {
-        // --- Lógica de categorías propias ---
-        const nombreCat = temaKey.replace('custom_', '');
-        const categoriasGuardadas = JSON.parse(localStorage.getItem('categoriasPropias')) || [];
-        const miCategoria = categoriasGuardadas.find(cat => cat.nombre === nombreCat);
+    if (juegoActual === "impostor") {
+        if (temaKey.startsWith('custom_')) {
+            // --- Lógica de categorías propias ---
+            const nombreCat = temaKey.replace('custom_', '');
+            const categoriasGuardadas = JSON.parse(localStorage.getItem('categoriasPropias')) || [];
+            const miCategoria = categoriasGuardadas.find(cat => cat.nombre === nombreCat);
 
-        if (!miCategoria || miCategoria.palabras.length === 0) {
-            mostrarMensaje(mensajeError, `Error: La categoría propia "${nombreCat}" no se encontró o está vacía.`, 'error');
-            return false;
-        }
-        listaPalabras = miCategoria.palabras;
+            if (!miCategoria || miCategoria.palabras.length === 0) {
+                mostrarMensaje(mensajeError, `Error: La categoría propia "${nombreCat}" no se encontró o está vacía.`, 'error');
+                return false;
+            }
+            listaPalabras = miCategoria.palabras;
 
-    } else {
-        // --- Lógica de categorías base ---
-        const tema = TEMAS[temaKey];
-
-        if (tema.subcategorias) {
-            if (subTemaKey === "todo") {
-                for (const subKey in tema.subcategorias) {
-                    listaPalabras = listaPalabras.concat(tema.subcategorias[subKey].palabras);
+        } else {
+            // --- Lógica de categorías base (Impostor) ---
+            const tema = TEMAS[temaKey];
+            if (tema.subcategorias) {
+                if (subTemaKey === "todo") { 
+                    listaPalabras = []; // Limpiamos por si acaso
+                    for (const subKey in tema.subcategorias) {
+                        listaPalabras = listaPalabras.concat(tema.subcategorias[subKey].palabras);
+                    }
+                } else { 
+                    listaPalabras = tema.subcategorias[subTemaKey].palabras; 
                 }
             } else {
-                listaPalabras = tema.subcategorias[subTemaKey].palabras;
+                listaPalabras = tema.palabras;
             }
-        } else {
-            listaPalabras = tema.palabras;
         }
+    } else if (juegoActual === "espia") {
+        // --- Lógica de categorías base (Espía) ---
+        const tema = UBICACIONES[temaKey];
+        // (El espía no tiene subcategorías por ahora)
+        listaPalabras = tema.palabras;
     }
 
     if (!listaPalabras || listaPalabras.length === 0) {
@@ -516,7 +627,6 @@ function prepararTurno() {
     botonSiguiente.classList.add('oculto');
     cartaRevelada.classList.remove('impostor');
     botonSiguiente.textContent = "SIGUIENTE JUGADOR";
-
     pantallaJuego.classList.remove('flash-impostor');
 }
 
@@ -527,12 +637,23 @@ function revelarCarta() {
     carta.classList.add('revelada');
 
     if (impostores.includes(jugadorActual)) {
-        textoRol.textContent = "¡ERES EL IMPOSTOR!";
+        // --- Es Impostor o Espía ---
+        if (juegoActual === "impostor") {
+            textoRol.textContent = "¡ERES EL IMPOSTOR!";
+        } else {
+            textoRol.textContent = "¡ERES EL ESPÍA!";
+        }
         textoPalabra.textContent = "";
         cartaRevelada.classList.add('impostor');
         pantallaJuego.classList.add('flash-impostor');
+
     } else {
-        textoRol.textContent = "LA PALABRA ES:";
+        // --- Es Tripulante o Agente ---
+        if (juegoActual === "impostor") {
+            textoRol.textContent = "LA PALABRA ES:";
+        } else {
+            textoRol.textContent = "LA UBICACIÓN ES:";
+        }
         textoPalabra.textContent = palabraSecreta;
     }
 
@@ -563,21 +684,32 @@ function mostrarPantallaFinal() {
 
     palabraFinal.textContent = `La palabra era: ${palabraSecreta}`;
     if (impostores.length === 1) {
-        impostoresFinal.textContent = `El impostor era: Jugador ${impostores[0]}`;
+        const rol = (juegoActual === 'impostor') ? 'impostor' : 'espía';
+        impostoresFinal.textContent = `El ${rol} era: Jugador ${impostores[0]}`;
     } else {
-        impostoresFinal.textContent = `Los impostores eran: Jugadores ${impostores.join(', ')}`;
+        const rol = (juegoActual === 'impostor') ? 'impostores' : 'espías';
+        impostoresFinal.textContent = `Los ${rol} eran: Jugadores ${impostores.join(', ')}`;
     }
 }
 
 function reiniciarJuego() {
-    cambiarPantalla(pantallaMenuImpostor, pantallaFinal);
+
+    // Vuelve al menú del juego que acabas de jugar
+    if (juegoActual === "impostor") {
+        cambiarPantalla(pantallaMenuImpostor, pantallaFinal);
+    } else {
+        cambiarPantalla(pantallaMenuEspia, pantallaFinal);
+    }
 
     totalJugadores = 0;
     impostores = [];
     tripulantes = [];
     palabraSecreta = "";
     jugadorActual = 1;
-
-    selectTematica.value = 'objetos';
+    
+    // (CORREGIDO) Reseteamos el select y subcategorías
+    // No podemos poner 'objetos' por si estábamos en El Espía
+    // Así que simplemente reseteamos el HTML
+    popularTemasPrincipales(juegoActual === 'impostor' ? TEMAS : UBICACIONES);
     actualizarSubcategorias();
 }
