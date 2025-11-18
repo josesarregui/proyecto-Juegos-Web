@@ -1,19 +1,63 @@
 // --- 1. Base de datos de palabras (NUEVA ESTRUCTURA) ---
+// --- 1. Base de datos de palabras (ACTUALIZADA) ---
+// --- 1. Base de datos de palabras (ACTUALIZADA) ---
 const TEMAS = {
     objetos: {
-        nombre: "Objetos",
-        palabras: ["Tenedor", "Lámpara", "Teléfono", "Silla", "Libro", "Reloj", "Botella", "Llaves", "Mochila", "Ventana"]
+        nombre: "Objetos (Argentina)",
+        palabras: [
+            "Mate", "Bombilla", "Pava eléctrica", "Termo", "Sifón de soda", 
+            "Parrilla", "Asado", "Choripán", "Empanada", "Alfajor", 
+            "Dulce de leche", "Fernet", "Colectivo", "Tarjeta SUBE", "DNI", 
+            "Birome", "Cuaderno", "Mochila", "Celular", "Cargador", 
+            "Zapatilla (Enchufe)", "Alpargata", "Boleadora", "Facón", "Poncho", 
+            "Escarapela", "Obelisco", "Billete de mil", "Cacerola", "Repasador"
+        ]
     },
     futbol: {
         nombre: "Fútbol",
         subcategorias: {
             jugadores: {
                 nombre: "Jugadores",
-                palabras: ["Messi", "Ronaldo", "Maradona", "Pelé", "Neymar", "Mbappé", "Zidane", "Ronaldinho", "Beckham", "Cruyff"]
+                palabras: [
+                    "Lionel Messi", "Diego Maradona", "Mario Kempes", "Gabriel Batistuta", "Juan Román Riquelme", 
+                    "Kun Agüero", "Di María", "Julián Álvarez", "Dibu Martínez", "Enzo Fernández", 
+                    "Pato Fillol", "Daniel Passarella", "Ruggeri", "Caniggia", "Verón", 
+                    "Martín Palermo", "Burrito Ortega", "Carlos Tevez", "Mascherano", "Zanetti",
+                    "Pelé", "Ronaldo Nazário", "Ronaldinho", "Neymar", "Cristiano Ronaldo", 
+                    "Johan Cruyff", "Zinedine Zidane", "Franz Beckenbauer", "Michel Platini", "Marco van Basten",
+                    "Paolo Maldini", "Gianluigi Buffon", "Andrés Iniesta", "Xavi Hernández", "Sergio Ramos",
+                    "Kylian Mbappé", "Erling Haaland", "Robert Lewandowski", "Luka Modrić", "Kevin De Bruyne",
+                    "Mohamed Salah", "Zlatan Ibrahimović", "Luis Suárez", "Thierry Henry", "David Beckham"
+                ]
             },
             equipos: {
-                nombre: "Equipos",
-                palabras: ["Real Madrid", "Barcelona", "Boca Juniors", "River Plate", "Manchester United", "Liverpool", "Juventus", "Bayern Munich"]
+                nombre: "Equipos de Fútbol",
+                palabras: [
+                    // Argentina
+                    "River Plate", "Boca Juniors", "Independiente", "Racing Club", "San Lorenzo", 
+                    "Vélez Sarsfield", "Estudiantes LP", "Gimnasia LP", "Huracán", "Rosario Central", 
+                    "Newell's Old Boys", "Talleres de Córdoba", "Belgrano", "Instituto", "Colón", 
+                    "Unión", "Lanús", "Banfield", "Argentinos Juniors", "Ferro Carril Oeste", 
+                    "Platense", "Chacarita Juniors", "Atlanta", "Tigre", "Defensa y Justicia", 
+                    "Godoy Cruz", "Atlético Tucumán", "San Martín de Tucumán", "Quilmes", "All Boys", 
+                    "Nueva Chicago", "Deportivo Morón", "Almirante Brown",
+                    // Brasil
+                    "Flamengo", "Palmeiras", "Santos", "São Paulo", "Corinthians", "Gremio", 
+                    "Cruzeiro", "Inter de Porto Alegre", "Fluminense", "Vasco da Gama",
+                    // Resto Sudamérica
+                    "Peñarol (URU)", "Nacional (URU)", "Colo-Colo (CHI)", "U de Chile", "U Católica (CHI)", 
+                    "Olimpia (PAR)", "Cerro Porteño (PAR)", "Alianza Lima (PER)", "Universitario (PER)", "Atlético Nacional (COL)",
+                    // Europa
+                    "Real Madrid", "FC Barcelona", "Atlético de Madrid", "Sevilla", "Valencia",
+                    "Manchester City", "Manchester United", "Liverpool", "Arsenal", "Chelsea", "Tottenham", 
+                    "Juventus", "AC Milan", "Inter de Milán", "Napoli", "AS Roma", 
+                    "Bayern Múnich", "Borussia Dortmund", "Bayer Leverkusen", 
+                    "PSG", "Olympique de Marsella", "Mónaco", "Lyon",
+                    "Ajax", "PSV", "Feyenoord", "Benfica", "Porto", "Sporting Lisboa", 
+                    "Celtic", "Rangers", "Galatasaray", "Fenerbahçe", "Olympiacos",
+                    // Resto del Mundo
+                    "Zenit", "CSKA Moscú", "Spartak Moscú", "Shakhtar Donetsk", "Dinamo Kiev", "Al-Nassr", "Inter Miami"
+                ]
             }
         }
     },
@@ -21,12 +65,23 @@ const TEMAS = {
         nombre: "Animales",
         subcategorias: {
             domesticos: {
-                nombre: "Domésticos",
-                palabras: ["Perro", "Gato", "Hámster", "Pez Dorado", "Loro", "Conejo"]
+                nombre: "Domésticos y Granja",
+                palabras: [
+                    "Perro", "Gato", "Hámster", "Conejo", "Loro", "Canario", "Pez Dorado", 
+                    "Tortuga de tierra", "Cobaya", "Hurón", "Caballo", "Vaca", "Cerdo", 
+                    "Oveja", "Cabra", "Gallina", "Pato", "Ganso", "Pavo"
+                ]
             },
             salvajes: {
-                nombre: "Salvajes",
-                palabras: ["León", "Elefante", "Jirafa", "Tigre", "Oso", "Hipopótamo", "Canguro"]
+                nombre: "Salvajes y Exóticos",
+                palabras: [
+                    "León", "Tigre", "Elefante", "Jirafa", "Hipopótamo", "Rinoceronte", 
+                    "Oso Polar", "Oso Pardo", "Panda", "Koala", "Canguro", "Gorila", 
+                    "Chimpancé", "Mono Tití", "Lobo", "Zorro", "Hiena", "Guepardo", 
+                    "Leopardo", "Cebra", "Búfalo", "Alce", "Ciervo", "Cocodrilo", 
+                    "Serpiente", "Águila", "Cóndor", "Tiburón", "Ballena", "Delfín", 
+                    "Orca", "Pingüino", "Foca", "Murciélago", "Camello"
+                ]
             }
         }
     }
