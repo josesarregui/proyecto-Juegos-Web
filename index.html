@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juegos de Fiesta</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Juegos de Fiesta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -17,39 +18,153 @@
         <p class="instruccion-pantalla">Elige un modo de juego para comenzar.</p>
         <div class="menu-opciones">
             <button id="botonJugarImpostor">Impostor 🕵️‍♂️</button>
-            <button id="botonJugarEspia" class="boton-secundario" disabled>El Espía (Próximamente)</button>
+            <button id="botonJugarEspia" class="boton-secundario">El Espía 🕶️</button>
             <button id="botonJugarAdivina" class="boton-secundario" disabled>Adivina la Palabra (Próximamente)</button>
         </div>
     </div>
 
     <div class="container oculto" id="pantallaMenuImpostor"> 
+        <button id="botonComoJugarImpostor" class="boton-ayuda">?</button>
         <div class="logo">🕵️‍♂️</div> 
         <h1>¡Bienvenido!</h1>
         <p class="instruccion-pantalla">Configura tu partida de Impostor.</p>
         <div class="menu-opciones">
-            <button id="botonJugarLocal">Jugar Local</button>
+            <button id="botonJugarLocalImpostor">Jugar Local</button>
             <button id="botonGestionarCategorias" class="boton-secundario">Crear / Editar Categorías</button>
-            <button id="botonVolverSelector" class="boton-secundario" style="margin-top: 20px;">Volver al Selector de Juegos</button>
+            <button id="botonVolverSelector" class="boton-secundario" style="margin-top: 10px;">Volver</button>
+        </div>
+    </div>
+
+    <div class="container oculto" id="pantallaMenuEspia"> 
+        <button id="botonComoJugarEspia" class="boton-ayuda">❓</button>
+        <div class="logo">🕶️</div> 
+        <h1>El Espía</h1>
+        <p class="instruccion-pantalla">Configura tu partida de Espía.</p>
+        <div class="menu-opciones">
+            <button id="botonJugarLocalEspia">Jugar Local</button>
+            <button id="botonVolverSelectorEspia" class="boton-secundario" style="margin-top: 10px;">Volver</button>
         </div>
     </div>
 
     <div class="container oculto" id="pantallaConfig">
+        <h1 id="tituloConfig">Configurar Partida</h1>
+        
+        <div class="configuracion">
+            <label for="totalJugadores">Total de Jugadores:</label>
+            <input type="number" id="totalJugadores" value="5" min="3" max="20">
+            
+            <label for="numImpostores" id="labelImpostores">Número de Impostores:</label>
+            <input type="number" id="numImpostores" value="1" min="1">
         </div>
+        
+        <div class="tematicas">
+            <label for="selectTematica" id="labelTematica">Elige una temática:</label>
+            <select id="selectTematica">
+                </select>
+        </div>
+        
+        <div class="tematicas oculto" id="divSubTematica">
+            <label for="selectSubTematica">Elige una subcategoría:</label>
+            <select id="selectSubTematica">
+                </select>
+        </div>
+
+        <button id="botonComenzar">COMENZAR</button>
+        <button id="botonVolverMenu" class="boton-secundario">Volver al Menú</button>
+        <div id="mensajeError" class="error"></div>
+    </div>
     
     <div class="container oculto" id="pantallaGestionar">
-        </div>
+        <h2>Gestionar Categorías</h2>
+        <p class="instruccion-pantalla">Puedes crear, editar o eliminar tus categorías.</p>
+        <button id="botonIrACrear" class="boton-crear">Crear Nueva Categoría</button>
+        <hr class="divisor">
+        <div id="listaCategoriasPropias">
+            </div>
+        <button id="botonVolverMenuGestionar" class="boton-secundario">Volver al Menú</button>
+    </div>
 
     <div class="container oculto" id="pantallaCrearCategoria">
+        <h2 id="tituloCrearEditar">Crear Categoría</h2> 
+        <div id="mensajeCategoria" class="info" style="display: none;"></div>
+        <div class="configuracion">
+            <label for="inputNombreCategoria">Nombre de la Categoría:</label>
+            <input type="text" id="inputNombreCategoria" placeholder="Ej: Películas de Marvel">
+            <label for="textareaPalabras">Palabras / Frases (Una por renglón):</label>
+            <textarea id="textareaPalabras" rows="10" placeholder="Iron Man&#10;Capitán América&#10;Thor&#10;..."></textarea>
+            <p id="conteoPalabras">0 / 50 palabras</p>
         </div>
+        <button id="botonGuardarCategoria">Guardar Categoría</button>
+        <button id="botonVolverGestionar" class="boton-secundario">Cancelar</button>
+    </div>
 
     <div class="container oculto" id="pantallaJuego">
+        <p class="instruccion-pantalla">Pasa el dispositivo al jugador correspondiente.</p>
+        <div id="carta">
+            <div id="cartaTapada">
+                <h2 id="tituloCartaTapada" class="titulo-carta">JUGADOR 1</h2>
+                <p class="instruccion-tapada">No digas la palabra a los demás jugadores.</p>
+                <span class="icono-tap">👇</span>
+                <p class="instruccion-revelar">TOCA PARA REVELAR</p>
+            </div>
+            <div id="cartaRevelada" class="oculto">
+                <h2 id="tituloCartaRevelada" class="titulo-carta">JUGADOR 1</h2>
+                <div class="bloque-palabra">
+                    <h3 id="textoRol">LA PALABRA ES:</h3>
+                    <p id="textoPalabra">PALABRA SECRETA</p>
+                </div>
+            </div>
         </div>
+        <button id="botonSiguiente" class="oculto">SIGUIENTE JUGADOR</button>
+    </div>
 
     <div class="container oculto" id="pantallaInicioRonda">
-        </div>
+        <h2>¡Listos para Jugar!</h2>
+        <p id="textoJugadorInicial">¡Comienza el Jugador 4!</p>
+        <button id="botonFinalizar">FINALIZAR JUEGO</button>
+    </div>
 
     <div class="container oculto" id="pantallaFinal">
+        <h2>¡Juego Terminado!</h2>
+        <div class="resultado-final">
+            <p id="palabraFinal">La palabra era: Argentina</p>
+            <p id="impostoresFinal">El/Los impostor(es) era(n): Jugador 2</p>
         </div>
+        <button id="botonJugarNuevo">Jugar de Nuevo</button>
+    </div>
+    
+    
+    <div class="overlay-modal oculto" id="overlayModalImpostor">
+        <div class="modal">
+            <h2>¿Cómo jugar al Impostor?</h2>
+            <p><strong>Objetivo:</strong> Los "Tripulantes" (que saben la palabra secreta) deben descubrir a los "Impostores" (que no la saben).</p>
+            <ol class="lista-reglas">
+                <li>Cada jugador ve su rol en secreto.</li>
+                <li>Uno por uno, cada jugador debe decir una palabra o frase corta relacionada con la palabra secreta para demostrar que la sabe.</li>
+                <li>Los impostores deben fingir y tratar de adivinar la palabra para no ser descubiertos.</li>
+                <li>¡Debatan y voten! Echen al jugador que crean que es el impostor.</li>
+                <li>Los Tripulantes ganan si eliminan a todos los impostores. Los Impostores ganan si sobreviven hasta el final.</li>
+            </ol>
+            <button class="botonCerrarModal">¡Entendido!</button>
+        </div>
+    </div>
+
+    <div class="overlay-modal oculto" id="overlayModalEspia">
+        <div class="modal">
+            <h2>¿Cómo jugar a El Espía?</h2>
+            <p><strong>Objetivo:</strong> Los "Agentes" deben descubrir al "Espía". El Espía debe adivinar la "Ubicación".</p>
+            <ol class="lista-reglas">
+                <li>Todos reciben una "Ubicación" (ej: "Un Circo"), menos el "Espía".</li>
+                <li>La app elige un jugador al azar para hacer la primera pregunta.</li>
+                <li>El preguntador elige a cualquier jugador y le hace una pregunta (ej: "¿Qué ropa llevas puesta?").</li>
+                <li>El jugador que responde se convierte en el nuevo preguntador y elige a otro.</li>
+                <li>Los Agentes dan pistas sutiles. El Espía debe mentir.</li>
+                <li>Los Agentes ganan si votan y descubren al Espía. El Espía gana si interrumpe el juego y adivina la ubicación correcta.</li>
+            </ol>
+            <button class="botonCerrarModal">¡Entendido!</button>
+        </div>
+    </div>
+    
     
     <script src="app.js"></script>
 </body>
