@@ -729,8 +729,8 @@ function siguienteTurno() {
 function mostrarInicioRonda() {
     cambiarPantalla(pantallaInicioRonda, pantallaJuego);
 
-    const indiceAleatorio = Math.floor(Math.random() * tripulantes.length);
-    const jugadorInicial = tripulantes[indiceAleatorio];
+    const jugadorInicial = Math.floor(Math.random() * totalJugadores) + 1;
+    
     textoJugadorInicial.textContent = `¡Comienza el Jugador ${jugadorInicial}!`;
 }
 
